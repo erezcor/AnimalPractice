@@ -5,20 +5,20 @@ import Exceptions.ZooException;
 import java.lang.reflect.InvocationTargetException;
 
 public class AnimalFactory {
-    private final String CLASS_PACKAGE = "Zoo.";
+    private static final String PACKAGE_NAME = AnimalFactory.class.getPackageName();
 
-    public Animal getAnimal(String animalClassName) throws ZooException {
+    public static Animal getAnimal(String animalClassName) throws ZooException {
         try {
-            return (Animal) Class.forName(CLASS_PACKAGE + animalClassName).getConstructor().newInstance();
+            return (Animal) Class.forName(PACKAGE_NAME + "." + animalClassName).getConstructor().newInstance();
         }
         catch (ClassNotFoundException exception) {
-            throw new ZooException("Class '" + animalClassName + "' is not found in Zoo package");
+            throw new ZooException("Class '" + animalClassName + "' is not found in " + PACKAGE_NAME + " package");
         }
         catch (ClassCastException exception) {
             throw new ZooException("Class '" + animalClassName + "' is not an instance of Animal");
         }
         catch (NoClassDefFoundError exception) {
-            throw new ZooException("Class '" + animalClassName + "'");
+            throw new ZooException("Class '" + animalClassName + "not found");
         }
         catch (NoSuchMethodException exception) {
             throw new ZooException("Class '" + animalClassName + "' doesn't have the constructor method we tried to get");

@@ -1,13 +1,16 @@
 package Zoo;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Dog extends Animal {
     @Override
     public void printYourName() {
-        System.out.println("Dog");
+        log.info("Dog");
     }
 
     @Override
     public void printYourSound() {
-        System.out.println("How");
+        log.info("How");
     }
 }

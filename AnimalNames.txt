@@ -1,1 +1,1 @@
-Cat Dog Duck
+Cat Dog Duck NotAClass AnimalFactory Animal

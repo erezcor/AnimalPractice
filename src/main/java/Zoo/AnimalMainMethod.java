@@ -4,40 +4,33 @@ import Exceptions.ZooException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
 
-import static Utils.StringUtils.getTextFileAsString;
-import static Utils.StringUtils.splitWordsOfString;
+import static Utils.StringUtils.scanWordStringsFromTextFile;
+import static Zoo.AnimalFactory.getAnimal;
 
 @Slf4j
 public class AnimalMainMethod {
     public static void main(String[] args) throws IOException {
-        Scanner reader = new Scanner(System.in);
+        Scanner inputScanner = new Scanner(System.in);
         String fileName;
-        AnimalFactory animalFactory = new AnimalFactory();
+        List<String> animalNames;
 
-        log.trace("Enter file name of animal names");
-        log.info("Enter file name of animal names");
-        log.debug("Enter file name of animal names");
-        log.error("Enter file name of animal names");
-        log.warn("Enter file name of animal names");
-        fileName = reader.nextLine();
+        log.info("Enter the file name of animal names:");
+        fileName = inputScanner.nextLine();
+        log.debug("fileName input: '{}'", fileName);
 
-        Scanner fileScanner = new Scanner(Path.of(fileName));
-
-        String textInFile = getTextFileAsString(fileName);
-        List<String> animalNames = splitWordsOfString(textInFile);
+        animalNames = scanWordStringsFromTextFile(fileName);
 
         for (String animalName : animalNames) {
             try {
-                Animal animal = animalFactory.getAnimal(animalName);
+                Animal animal = getAnimal(animalName);
                 animal.printYourName();
                 animal.printYourSound();
             }
             catch (ZooException zooException) {
-                zooException.printStackTrace();
+                log.error("Error during animal printing loop", zooException);
             }
         }
     }
